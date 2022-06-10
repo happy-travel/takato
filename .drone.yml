@@ -42,7 +42,7 @@ steps:
     mode: upgrade
     chart: ./Helm/takato
     release: takato
-    values_files: ["Helm_v3/takato/values_dev.yaml"]
+    values_files: ["Helm/takato/values_dev.yaml"]
     namespace: dev
     skip_tls_verify: true
     wait_for_upgrade: true
