@@ -1,0 +1,26 @@
+const apiMethods = {
+    AVAILABILITY_RESTRICTIONS: () => `/travel-click/availability-restrictions`,
+    AVAILABILITY_RESTRICTIONS_UPDATE: () => `/travel-click/availability-restrictions/update`,
+    CANCELLATION_POLICIES: (propertyId) => `/properties/${propertyId}/cancellation-policies`,
+    CANCELLATION_POLICY: (propertyId, cancellationPolicyId) => `/properties/${propertyId}/cancellation-policies/${cancellationPolicyId}`,
+    COUNTRIES: () => `/countries`,
+    COUNTRY: (countryId) => `/countries/${countryId}`,
+    HOTEL_PRODUCTS: () => `/travel-click/hotel-products`,
+    INVENTORY: () => `/travel-click/inventory`,
+    INVENTORY_UPDATE: () => `/travel-click/inventory/update`,
+    MEAL_PLANS: () => `/meal-plans`,
+    MEAL_PLAN: (mealPlanId) => `/meal-plans/${mealPlanId}`,
+    PING : () => `/travel-click/ping`,
+    SUPPLIER_CODE: () => `/properties/suppliers/${supplierCode}`,
+    PROPERTIES: () => `/properties`,
+    PROPERTY: (propertyId) => `/properties/${propertyId}`,
+    PROPERTY_UPLOAD: (propertyId) => `/properties/${propertyId}/travel-click/upload`,
+    RATES: () => `/travel-click/rates`,
+    RATES_UPDATE: () => `/travel-click/rates/update`,
+    ROOMS: (propertyId) => `/properties/${propertyId}/rooms`,
+    ROOM: (propertyId, roomId) => `/properties/${propertyId}/rooms/${roomId}`,
+    ROOM_TYPES: () => `/room-types`,
+    ROOM_TYPE: (roomTypeId) => `/room-types/${roomTypeId}`,
+};
+
+export default apiMethods;
