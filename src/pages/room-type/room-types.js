@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {Button, Spin, Table, Typography} from 'antd';
+import { Button, PageHeader, Spin, Table } from 'antd';
 import { API } from '../../htcore';
 import apiMethods from '../../api-methods';
-
-const { Title } = Typography;
 
 const columns = [
     {
@@ -44,25 +42,28 @@ const RoomTypesPage = () => {
         });
     }, []);
 
-    if (!roomTypes)
+    if (!roomTypes) {
         return <Spin />;
+    }
 
     return (
         <div className="page-content">
-            <Title>Room Types</Title>
+            <PageHeader
+                title="Room Types"
+                extra={
+                    <Link to="./create">
+                        <Button>
+                            Add Room Type
+                        </Button>
+                    </Link>
+                }
+            />
             <Table
                 dataSource={roomTypes}
                 columns={columns}
                 pagination={false}
                 rowKey="id"
             />
-            <div className="actions-holder">
-                <Link to="./create">
-                    <Button>
-                        Add Room Type
-                    </Button>
-                </Link>
-            </div>
         </div>
     );
 };

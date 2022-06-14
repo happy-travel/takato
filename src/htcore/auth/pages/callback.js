@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import OidcInstance from '../oidc-instance';
 import { authSetToStorage } from '../index';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { lastPage } from '../../misc/tracker';
 
 const AuthCallbackComponent = () => {

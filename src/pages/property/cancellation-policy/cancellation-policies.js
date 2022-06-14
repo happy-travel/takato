@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Spin, Table } from 'antd';
+import {Button, Spin, Table} from 'antd';
 import apiMethods from '../../../api-methods';
-import {API} from '../../../htcore';
+import { API } from '../../../htcore';
 
 const columns = [
     {
@@ -49,10 +49,18 @@ const CancellationPoliciesPage = () => {
 
     return (
         <>
+            <div className="actions-holder">
+                <Link to="./create">
+                    <Button>
+                        Add Cancellation Policy
+                    </Button>
+                </Link>
+            </div>
             <Table
                 dataSource={cancellationPolicies}
                 columns={columns}
                 pagination={false}
+                rowKey="id"
             />
         </>
     );

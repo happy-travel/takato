@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Breadcrumb, Button, Form, Input, message, Spin, Typography, InputNumber } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { API } from '../../htcore';
 import apiMethods from '../../api-methods';
 

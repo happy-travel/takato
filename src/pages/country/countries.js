@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Spin, Table, Typography, Button } from 'antd';
+import { Spin, Table, Button, PageHeader } from 'antd';
 import { API } from '../../htcore';
 import apiMethods from '../../api-methods';
-
-const { Title } = Typography;
 
 const columns = [
     {
@@ -45,20 +43,22 @@ const CountriesPage = () => {
 
     return (
         <div className="page-content">
-            <Title>Countries</Title>
+            <PageHeader
+                title="Countries"
+                extra={
+                    <Link to="./create">
+                        <Button>
+                            Add Country
+                        </Button>
+                    </Link>
+                }
+            />
             <Table
                 dataSource={countries}
                 columns={columns}
                 pagination={false}
                 rowKey="id"
             />
-            <div className="actions-holder">
-                <Link to="./create">
-                    <Button>
-                        Add Country
-                    </Button>
-                </Link>
-            </div>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Spin, Table } from 'antd';
+import { Button, Spin, Table } from 'antd';
 import { API } from '../../../htcore';
 import apiMethods from '../../../api-methods';
 
@@ -40,15 +40,24 @@ const RoomsPage = () => {
         });
     }, []);
 
-    if (!rooms)
+    if (!rooms) {
         return <Spin />;
+    }
 
     return (
         <>
+            <div className="actions-holder">
+                <Link to="./create">
+                    <Button>
+                        Add Room
+                    </Button>
+                </Link>
+            </div>
             <Table
                 dataSource={rooms}
                 columns={columns}
                 pagination={false}
+                rowKey="id"
             />
         </>
     );

@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './app';
 import { initApplication } from './htcore';
 import settings from './settings';
-import 'antd/dist/antd.css';
-import './style/style.css';
+import 'antd/dist/antd.min.css';
+import './style/style.sass';
 import {message, Spin} from 'antd';
 
 initApplication({
