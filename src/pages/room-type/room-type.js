@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Breadcrumb, Button, Form, Input, message, Spin, Typography, InputNumber } from 'antd';
+import {Breadcrumb, Button, Form, Input, message, Spin, Typography, Space, Checkbox, Col} from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { API } from '../../htcore';
 import apiMethods from '../../api-methods';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const RoomTypePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [roomType, setRoomType] = useState(null);
+    const [roomCategories, setRoomCategories] = useState([]);
 
     useEffect(() => {
         API.get({
@@ -22,12 +23,23 @@ const RoomTypePage = () => {
                 ));
             }
         });
+        API.get({
+            komoro_url: apiMethods.ROOM_CATEGORIES(),
+            success: (data) => {
+                setRoomCategories(data);
+            }
+        })
     }, []);
 
     const submit = (values) => {
+        const category = Object.keys(values.category)
+            .filter((value) => values.category[value] === true)
+            .join(", ")
+
         const body =  {
             ...roomType,
             ...values,
+            category,
         };
         if (id !== 'create')  {
             API.put({
@@ -99,12 +111,18 @@ const RoomTypePage = () => {
                 >
                     <Input placeholder="Enter Room Type Code" />
                 </Form.Item>
-                <Form.Item
-                    name="category"
-                    label="Category"
-                >
-                    <InputNumber placeholder="Enter Room Type Category" />
-                </Form.Item>
+                <Col span={11}>
+                    <Space direction="vertical" size="middle">
+                        <Text>Rate Plan</Text>
+                        <div style={{display: "flex", columnGap: "10px"}}>
+                            { roomCategories.map((roomCategory, index) => (
+                                <Form.Item key={index} name={["category", roomCategory]} valuePropName="checked">
+                                    <Checkbox defaultChecked={false}>{ roomCategory }</Checkbox>
+                                </Form.Item>
+                            )) }
+                        </div>
+                    </Space>
+                </Col>
                 <Form.Item>
                     <Button
                         type="primary"

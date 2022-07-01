@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Form, Input, InputNumber, message, Spin, Space, Card} from 'antd';
+import {Button, Form, Input, InputNumber, message, Spin, Space, Card, Checkbox, Typography, Col} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API } from '../../../htcore';
@@ -7,11 +7,14 @@ import apiMethods from '../../../api-methods';
 import RoomTypeSelector from '../../../common/components/room-type-selector';
 import MealPlanSelector from '../../../common/components/meal-plan-selector';
 
+const { Text } = Typography;
+
 const RoomPage = () => {
     const {propertyId, id} = useParams();
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [room, setRoom] = useState(null);
+    const [ratePlans, setRatePlans] = useState([]);
 
     useEffect(() => {
         API.get({
@@ -22,13 +25,25 @@ const RoomPage = () => {
                 ));
             }
         });
+        API.get({
+            komoro_url: apiMethods.RATE_PLANS(),
+            success: (data) => {
+                setRatePlans(data.filter((el) => el !== "None"));
+            }
+        })
     }, []);
 
     const submit = (values) => {
+        const ratePlans = Object.keys(values.ratePlans)
+            .filter((value) => values.ratePlans[value] === true)
+            .join(", ")
+
         const body =  {
             ...room,
             ...values,
+            ratePlans,
         };
+
         if (id !== 'create')  {
             API.put({
                 komoro_url: apiMethods.ROOM(propertyId, id),
@@ -167,9 +182,18 @@ const RoomPage = () => {
                         <Input placeholder="USD" />
                     </Form.Item>
                 </Input.Group>
-                <Form.Item name="ratePlans" label="Rate Plans" rules={[{ required: true, message: 'Required' }]}>
-                    <InputNumber placeholder="100" />
-                </Form.Item>
+                <Col span={11}>
+                    <Space direction="vertical" size="middle">
+                        <Text>Rate Plan</Text>
+                        <div style={{display: "flex", gridTemplateColumns: "1fr 1fr 1fr"}}>
+                            { ratePlans.map((ratePlan, index) => (
+                                <Form.Item key={index} name={["ratePlans", ratePlan]} valuePropName="checked">
+                                    <Checkbox defaultChecked={false}>{ ratePlan }</Checkbox>
+                                </Form.Item>
+                            )) }
+                        </div>
+                    </Space>
+                </Col>
                 <Form.Item>
                     <Button
                         type="primary"

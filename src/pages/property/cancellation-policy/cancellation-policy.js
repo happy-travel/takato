@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Form, Input, message, Spin, DatePicker} from 'antd';
+import {Button, Form, Input, message, Spin, DatePicker, Space, Checkbox, Col, Typography} from 'antd';
 import {useNavigate, useParams} from 'react-router-dom';
 import moment from 'moment';
 import apiMethods from '../../../api-methods';
 import {API} from '../../../htcore';
+
+const { Text } = Typography;
 
 const CancellationPolicyPage = () => {
     const {propertyId, id} = useParams();
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [cancellationPolicy, setCancellationPolicy] = useState(null);
+    const [noShowPolicies, setNoShowPolicies] = useState([]);
 
     useEffect(() => {
         API.get({
@@ -23,12 +26,23 @@ const CancellationPolicyPage = () => {
                 setCancellationPolicy(result);
             }
         });
+        API.get({
+            komoro_url: apiMethods.NO_SHOW_POLICIES(),
+            success: (data) => {
+                setNoShowPolicies(data);
+            }
+        })
     }, []);
 
     const submit = (values) => {
+        const noShow = Object.keys(values.noShow)
+            .filter((value) => values.noShow[value] === true)
+            .join(", ")
+
         const body =  {
             ...cancellationPolicy,
             ...values,
+            noShow,
             fromDate: values.fromDate.format('YYYY-MM-DD'),
             toDate: values.toDate.format('YYYY-MM-DD'),
         };
@@ -90,9 +104,18 @@ const CancellationPolicyPage = () => {
                 <Form.Item name="percentage" label="Percentage">
                     <Input placeholder="0" />
                 </Form.Item>
-                <Form.Item name="noShow" label="No Show">
-                    <Input placeholder="0" />
-                </Form.Item>
+                <Col span={12}>
+                    <Space direction="vertical" size="middle">
+                        <Text>Rate Plan</Text>
+                        <div style={{display: "flex", columnGap: "10px"}}>
+                            { noShowPolicies.map((noShowPolicy, index) => (
+                                <Form.Item key={index} name={["noShow", noShowPolicy]} valuePropName="checked">
+                                    <Checkbox defaultChecked={false}>{ noShowPolicy }</Checkbox>
+                                </Form.Item>
+                            )) }
+                        </div>
+                    </Space>
+                </Col>
                 <Form.Item>
                     <Button
                         type="primary"
