@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, notification } from 'antd';
+import {Button, message} from 'antd';
 import { API } from '../../../htcore';
 import apiMethods from '../../../api-methods';
 
@@ -7,12 +7,9 @@ const PingPagePart = () => {
     const pingRequest = () => {
         API.post({
             komoro_url: apiMethods.PING(),
-            success: (data) => {
-                notification.open({
-                    message: 'Ping Result',
-                    description: data
-                });
-            }
+            success: () => {
+                message.success("Success");
+            },
         });
     };
 
