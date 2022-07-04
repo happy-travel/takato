@@ -4,6 +4,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import moment from 'moment';
 import apiMethods from '../../../api-methods';
 import {API} from '../../../htcore';
+import EntityMultiplySelector from "../../../common/components/entity-multiply-selector";
 
 const { Text } = Typography;
 
@@ -27,7 +28,7 @@ const CancellationPolicyPage = () => {
             }
         });
         API.get({
-            komoro_url: apiMethods.NO_SHOW_POLICIES(),
+            komoro_url: apiMethods.CANCELLATION_POLICY_NO_SHOW_OPTIONS(),
             success: (data) => {
                 setNoShowPolicies(data);
             }
@@ -104,18 +105,12 @@ const CancellationPolicyPage = () => {
                 <Form.Item name="percentage" label="Percentage">
                     <Input placeholder="0" />
                 </Form.Item>
-                <Col span={12}>
                     <Space direction="vertical" size="middle">
-                        <Text>Rate Plan</Text>
+                        <Text>No Show</Text>
                         <div style={{display: "flex", columnGap: "10px"}}>
-                            { noShowPolicies.map((noShowPolicy, index) => (
-                                <Form.Item key={index} name={["noShow", noShowPolicy]} valuePropName="checked">
-                                    <Checkbox defaultChecked={false}>{ noShowPolicy }</Checkbox>
-                                </Form.Item>
-                            )) }
+                            <EntityMultiplySelector array={noShowPolicies} name="noShow" />
                         </div>
                     </Space>
-                </Col>
                 <Form.Item>
                     <Button
                         type="primary"

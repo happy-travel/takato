@@ -4,6 +4,7 @@ import { HomeOutlined } from '@ant-design/icons';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { API } from '../../htcore';
 import apiMethods from '../../api-methods';
+import EntityMultiplySelector from "../../common/components/entity-multiply-selector";
 
 const { Title, Text } = Typography;
 
@@ -113,13 +114,9 @@ const RoomTypePage = () => {
                 </Form.Item>
                 <Col span={11}>
                     <Space direction="vertical" size="middle">
-                        <Text>Rate Plan</Text>
+                        <Text>Category</Text>
                         <div style={{display: "flex", columnGap: "10px"}}>
-                            { roomCategories.map((roomCategory, index) => (
-                                <Form.Item key={index} name={["category", roomCategory]} valuePropName="checked">
-                                    <Checkbox defaultChecked={false}>{ roomCategory }</Checkbox>
-                                </Form.Item>
-                            )) }
+                            <EntityMultiplySelector array={roomCategories} name="category" />
                         </div>
                     </Space>
                 </Col>

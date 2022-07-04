@@ -6,6 +6,7 @@ import { API } from '../../../htcore';
 import apiMethods from '../../../api-methods';
 import RoomTypeSelector from '../../../common/components/room-type-selector';
 import MealPlanSelector from '../../../common/components/meal-plan-selector';
+import EntityMultiplySelector from "../../../common/components/entity-multiply-selector";
 
 const { Text } = Typography;
 
@@ -184,13 +185,9 @@ const RoomPage = () => {
                 </Input.Group>
                 <Col span={11}>
                     <Space direction="vertical" size="middle">
-                        <Text>Rate Plan</Text>
-                        <div style={{display: "flex", gridTemplateColumns: "1fr 1fr 1fr"}}>
-                            { ratePlans.map((ratePlan, index) => (
-                                <Form.Item key={index} name={["ratePlans", ratePlan]} valuePropName="checked">
-                                    <Checkbox defaultChecked={false}>{ ratePlan }</Checkbox>
-                                </Form.Item>
-                            )) }
+                        <Text>Rate Plans</Text>
+                        <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr"}}>
+                            <EntityMultiplySelector array={ratePlans} name="ratePlans" />
                         </div>
                     </Space>
                 </Col>
