@@ -13,7 +13,6 @@ const RoomTypePage = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [roomType, setRoomType] = useState(null);
-    const [roomCategories, setRoomCategories] = useState([]);
 
     useEffect(() => {
         API.get({
@@ -24,12 +23,6 @@ const RoomTypePage = () => {
                 ));
             }
         });
-        API.get({
-            komoro_url: apiMethods.ROOM_CATEGORIES(),
-            success: (data) => {
-                setRoomCategories(data);
-            }
-        })
     }, []);
 
     const submit = (values) => {
@@ -116,7 +109,7 @@ const RoomTypePage = () => {
                     <Space direction="vertical" size="middle">
                         <Text>Category</Text>
                         <div style={{display: "flex", columnGap: "10px"}}>
-                            <EntityMultiplySelector array={roomCategories} name="category" />
+                            <EntityMultiplySelector method={apiMethods.ROOM_CATEGORIES} name="category" />
                         </div>
                     </Space>
                 </Col>

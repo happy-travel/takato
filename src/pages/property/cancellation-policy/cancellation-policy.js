@@ -13,7 +13,6 @@ const CancellationPolicyPage = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [cancellationPolicy, setCancellationPolicy] = useState(null);
-    const [noShowPolicies, setNoShowPolicies] = useState([]);
 
     useEffect(() => {
         API.get({
@@ -27,12 +26,6 @@ const CancellationPolicyPage = () => {
                 setCancellationPolicy(result);
             }
         });
-        API.get({
-            komoro_url: apiMethods.CANCELLATION_POLICY_NO_SHOW_OPTIONS(),
-            success: (data) => {
-                setNoShowPolicies(data);
-            }
-        })
     }, []);
 
     const submit = (values) => {
@@ -108,7 +101,7 @@ const CancellationPolicyPage = () => {
                     <Space direction="vertical" size="middle">
                         <Text>No Show</Text>
                         <div style={{display: "flex", columnGap: "10px"}}>
-                            <EntityMultiplySelector array={noShowPolicies} name="noShow" />
+                            <EntityMultiplySelector method={apiMethods.CANCELLATION_POLICY_NO_SHOW_OPTIONS} name="noShow" />
                         </div>
                     </Space>
                 <Form.Item>

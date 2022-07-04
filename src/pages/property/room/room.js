@@ -15,7 +15,6 @@ const RoomPage = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [room, setRoom] = useState(null);
-    const [ratePlans, setRatePlans] = useState([]);
 
     useEffect(() => {
         API.get({
@@ -26,12 +25,6 @@ const RoomPage = () => {
                 ));
             }
         });
-        API.get({
-            komoro_url: apiMethods.RATE_PLANS(),
-            success: (data) => {
-                setRatePlans(data.filter((el) => el !== "None"));
-            }
-        })
     }, []);
 
     const submit = (values) => {
@@ -187,7 +180,7 @@ const RoomPage = () => {
                     <Space direction="vertical" size="middle">
                         <Text>Rate Plans</Text>
                         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr"}}>
-                            <EntityMultiplySelector array={ratePlans} name="ratePlans" />
+                            <EntityMultiplySelector method={apiMethods.RATE_PLANS} name="ratePlans" />
                         </div>
                     </Space>
                 </Col>
