@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Form, Input, message, Spin, DatePicker} from 'antd';
+import {Button, Form, Input, message, Spin, DatePicker, Space, Checkbox, Col, Typography} from 'antd';
 import {useNavigate, useParams} from 'react-router-dom';
 import moment from 'moment';
 import apiMethods from '../../../api-methods';
 import {API} from '../../../htcore';
+import EntityMultiplySelector from "../../../common/components/entity-multiply-selector";
+
+const { Text } = Typography;
 
 const CancellationPolicyPage = () => {
     const {propertyId, id} = useParams();
@@ -26,9 +29,14 @@ const CancellationPolicyPage = () => {
     }, []);
 
     const submit = (values) => {
+        const noShow = Object.keys(values.noShow)
+            .filter((value) => values.noShow[value] === true)
+            .join(", ")
+
         const body =  {
             ...cancellationPolicy,
             ...values,
+            noShow,
             fromDate: values.fromDate.format('YYYY-MM-DD'),
             toDate: values.toDate.format('YYYY-MM-DD'),
         };
@@ -90,9 +98,12 @@ const CancellationPolicyPage = () => {
                 <Form.Item name="percentage" label="Percentage">
                     <Input placeholder="0" />
                 </Form.Item>
-                <Form.Item name="noShow" label="No Show">
-                    <Input placeholder="0" />
-                </Form.Item>
+                    <Space direction="vertical" size="middle">
+                        <Text>No Show</Text>
+                        <div style={{display: "flex", columnGap: "10px"}}>
+                            <EntityMultiplySelector method={apiMethods.CANCELLATION_POLICY_NO_SHOW_OPTIONS} name="noShow" />
+                        </div>
+                    </Space>
                 <Form.Item>
                     <Button
                         type="primary"

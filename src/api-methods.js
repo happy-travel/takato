@@ -2,6 +2,7 @@ const apiMethods = {
     AVAILABILITY_RESTRICTIONS: () => `/travel-click/availability-restrictions`,
     AVAILABILITY_RESTRICTIONS_UPDATE: () => `/travel-click/availability-restrictions/update`,
     CANCELLATION_POLICIES: (propertyId) => `/properties/${propertyId}/cancellation-policies`,
+    CANCELLATION_POLICY_NO_SHOW_OPTIONS: () => `/no-show-policies`,
     CANCELLATION_POLICY: (propertyId, cancellationPolicyId) => `/properties/${propertyId}/cancellation-policies/${cancellationPolicyId}`,
     COUNTRIES: () => `/countries`,
     COUNTRY: (countryId) => `/countries/${countryId}`,
@@ -16,11 +17,13 @@ const apiMethods = {
     PROPERTY: (propertyId) => `/properties/${propertyId}`,
     PROPERTY_UPLOAD: (propertyId) => `/properties/${propertyId}/travel-click/upload`,
     RATES: () => `/travel-click/rates`,
+    RATE_PLANS: () => `/rate-plans`,
     RATES_UPDATE: () => `/travel-click/rates/update`,
     ROOMS: (propertyId) => `/properties/${propertyId}/rooms`,
     ROOM: (propertyId, roomId) => `/properties/${propertyId}/rooms/${roomId}`,
     ROOM_TYPES: () => `/room-types`,
     ROOM_TYPE: (roomTypeId) => `/room-types/${roomTypeId}`,
+    ROOM_CATEGORIES: () => `/room-categories`,
 };
 
 export default apiMethods;

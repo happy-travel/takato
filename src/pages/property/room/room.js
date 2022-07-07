@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Form, Input, InputNumber, message, Spin, Space, Card} from 'antd';
+import {Button, Form, Input, InputNumber, message, Spin, Space, Card, Checkbox, Typography, Col} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API } from '../../../htcore';
 import apiMethods from '../../../api-methods';
 import RoomTypeSelector from '../../../common/components/room-type-selector';
 import MealPlanSelector from '../../../common/components/meal-plan-selector';
+import EntityMultiplySelector from "../../../common/components/entity-multiply-selector";
+
+const { Text } = Typography;
 
 const RoomPage = () => {
     const {propertyId, id} = useParams();
@@ -25,10 +28,16 @@ const RoomPage = () => {
     }, []);
 
     const submit = (values) => {
+        const ratePlans = Object.keys(values.ratePlans)
+            .filter((value) => values.ratePlans[value] === true)
+            .join(", ")
+
         const body =  {
             ...room,
             ...values,
+            ratePlans,
         };
+
         if (id !== 'create')  {
             API.put({
                 komoro_url: apiMethods.ROOM(propertyId, id),
@@ -167,9 +176,14 @@ const RoomPage = () => {
                         <Input placeholder="USD" />
                     </Form.Item>
                 </Input.Group>
-                <Form.Item name="ratePlans" label="Rate Plans" rules={[{ required: true, message: 'Required' }]}>
-                    <InputNumber placeholder="100" />
-                </Form.Item>
+                <Col span={11}>
+                    <Space direction="vertical" size="middle">
+                        <Text>Rate Plans</Text>
+                        <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr"}}>
+                            <EntityMultiplySelector method={apiMethods.RATE_PLANS} name="ratePlans" />
+                        </div>
+                    </Space>
+                </Col>
                 <Form.Item>
                     <Button
                         type="primary"
