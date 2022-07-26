@@ -29,6 +29,7 @@ const CancellationPolicyPage = () => {
         const body =  {
             ...cancellationPolicy,
             ...values,
+            propertyId: propertyId,
             fromDate: values.fromDate.format('YYYY-MM-DD'),
             toDate: values.toDate.format('YYYY-MM-DD'),
         };
